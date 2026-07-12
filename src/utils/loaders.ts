@@ -6,8 +6,7 @@ import { BotClient, BotEvent, Command } from '../types';
 
 /**
  * Recursively finds all .ts/.js files under a directory.
- * Lets commands live in subfolders (utility/, moderation/, ...)
- * without any extra wiring.
+ * Lets commands live in subfolders (utility/, moderation/, ...) without any extra wiring.
 */
 function getFilesRecursively(dir: string): string[] {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
