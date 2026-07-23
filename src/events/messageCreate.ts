@@ -1,10 +1,12 @@
 import { Events, Message } from "discord.js";
-import { BotClient, BotEvent } from "../types";
+import { BotClient, BotEvent } from "../types/types";
 
 const messageCreateEvent: BotEvent = {
   name: Events.MessageCreate,
 
   async execute(message: Message) {
+    console.log('messageCreateEvent', message);
+    
     // Prevent the bot to responding to itself or other bots
     if (message.author.bot) return;
 
