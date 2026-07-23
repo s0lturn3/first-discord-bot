@@ -1,7 +1,8 @@
-import { Collection } from 'discord.js';
+import {ActivityType, Collection, Events, PresenceUpdateStatus, PresenceStatusData, PresenceStatus} from 'discord.js';
 import fs from 'fs';
 import path from 'path';
-import { BotClient, BotEvent, Command } from '../types';
+import { BotClient, BotEvent, Command, SlashCommand } from '../types/types';
+import deployCommands from "./deployCommands";
 
 
 /**
@@ -28,18 +29,27 @@ export function loadCommands(client: BotClient): void {
   if (!fs.existsSync(commandsPath)) return;
 
   for (const filePath of getFilesRecursively(commandsPath)) {
-    const command: Command = require(filePath).default ?? require(filePath);
+    const command = require(filePath).default ?? require(filePath);
 
-    if (!command?.name || !command?.execute) {
+    if (!command) continue;
+
+    // Slash commands
+    if (command!.data && command!.execute) {
+      client.commands.set(command.data.name, command);
+    }
+    // Common commands
+    else if (command!.name || command!.execute) {
+      client.commands.set(command.name, command);
+    }
+    else {
       console.warn('Invalid command file:', filePath);
-      continue;
     }
 
-    client.commands.set(command.name, command);
   }
 
   console.log('Commands loaded:', client.commands.size);
 }
+
 
 export function loadEvents(client: BotClient): void {
   const eventsPath = path.join(__dirname, '..', 'events');
