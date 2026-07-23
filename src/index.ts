@@ -1,6 +1,6 @@
-import { Client, GatewayIntentBits } from 'discord.js';
+import { Client, GatewayIntentBits, Partials } from 'discord.js';
 import { env } from './config/env';
-import { BotClient } from './types';
+import { BotClient } from './types/types';
 import { loadCommands, loadEvents } from './utils/loaders';
 
 const client = new Client({
@@ -8,7 +8,14 @@ const client = new Client({
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
         GatewayIntentBits.MessageContent,
+        GatewayIntentBits.GuildMembers,
     ],
+    partials: [
+        Partials.Channel,
+        Partials.Message,
+        Partials.User,
+        Partials.GuildMember,
+    ]
 }) as BotClient;
 
 loadCommands(client);
