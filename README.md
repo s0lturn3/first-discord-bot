@@ -40,18 +40,18 @@ src/
 ├── config/       # Env var validation
 ├── services/     # Business logic decoupled from Discord-specific code
 ├── utils/        # Command/event loaders
-├── types.ts      # Shared types
+├── types/        # Shared types
 └── index.ts      # Entry point
 ```
 
 ## Adding a command
 
-Create a file under `src/commands/<category>/<name>.ts` following the `Command` interface in `types.ts`. It's loaded automatically — no manual registration needed.
+Create a file under `src/commands/<category>/<name>.ts` following the `Command` or the `SlashCommand` interface in `types.ts`. It's loaded automatically — no manual registration needed.
 
 ## Roadmap
 
-- [ ] Migrate from text commands to slash commands
-- [ ] Add a moderation command category (kick, ban, mute)
+- [x] Migrate from text commands to slash commands
+- [x] Add a moderation command category (kick, ban, mute)
 - [ ] Add a simple persistent storage layer (SQLite or JSON) for per-server settings
 - [ ] Add basic logging (command usage, errors) to a file or channel
 - [ ] Deploy to a small VPS / hosting service for 24/7 uptime
