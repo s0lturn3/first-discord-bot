@@ -11,6 +11,16 @@ export interface Command {
 }
 
 /**
+ * Contract every text command file in src/commands must satisfy.
+ * Keep it simple for now (name + execute) — extend with things like `aliases`, `cooldown`, or `permissions` as the bot grows.
+ */
+export interface MessageCommand {
+  name: string;
+  description: string;
+  execute: (message: Message) => Promise<void>;
+}
+
+/**
  * Contract every slash command file in src/commands must satisfy.
  * Keep it simple for now (name + execute) — extend with things like `aliases`, `cooldown`, or `permissions` as the bot grows.
  */

@@ -1,5 +1,5 @@
 import { Events, Message } from "discord.js";
-import { BotClient, BotEvent } from "../types/types";
+import {BotClient, BotEvent, MessageCommand} from "../types/types";
 
 const messageCreateEvent: BotEvent = {
   name: Events.MessageCreate,
@@ -11,7 +11,7 @@ const messageCreateEvent: BotEvent = {
     if (message.author.bot) return;
 
     const client = message.client as BotClient;
-    const command = client.commands.get(message.content.toLowerCase());
+    const command: MessageCommand = (client.commands.get(message.content.toLowerCase()) as unknown) as MessageCommand;
 
     if (!command) return;
 

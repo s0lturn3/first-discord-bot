@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import path from 'path';
+import fs from 'fs';
 import { REST, Routes } from 'discord.js';
 
 import { getFilesRecursive } from "./utils";
@@ -7,9 +8,13 @@ import { getFilesRecursive } from "./utils";
 const deployCommands = async () => {
 	try {
 		const commands = [];
-		const commandFiles = getFilesRecursive(path.join(__dirname, '..', 'commands'), '.slash.ts');
 
-		for (const filePath of commandFiles) {
+		// searches for the .js and .ts command files
+		const commandFiles = (await getFilesRecursive(path.join(__dirname, '..', 'commands'), '.slash.ts'))
+			.concat(await getFilesRecursive(path.join(__dirname, '..', 'commands'), '.slash.js'))
+
+		// only iterates through the files that actually exist
+		for ( const filePath of commandFiles.filter(e => fs.existsSync(e)) ) {
 			const command = require(filePath).default ?? require(filePath);
 
 			if ('data' in command && 'execute' in command) {
